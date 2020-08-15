@@ -1,34 +1,52 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/Header";
 import Search from "../components/Search";
 import Categories from "../components/Categories";
 import Carousel from "../components/Carousel";
 import CarouselItem from "../components/CarouselItem";
-import Footer from "../components/Footer";
 import useInitialState from "../hooks/useInitialState";
+import { connect } from "react-redux";
+
 import "../assets/styles/App.scss";
 
-const API = "http://localhost:3000/initialState";
-
-const Home = () => {
-  const [videos, categories] = useInitialState(API);
+const Home = ({ mylist, trends, originals }) => {
   return (
     <>
       <Search />
-      {categories.map(
-        (category) =>
-          videos[category].length > 0 && (
-            <Categories title={category}>
-              <Carousel>
-                {videos[category].map((item) => (
-                  <CarouselItem key={item.id} {...item} />
-                ))}
-              </Carousel>
-            </Categories>
-          )
+
+      {mylist.length > 0 && (
+        <Categories title="Mi lista">
+          <Carousel>
+            {mylist.map((item) => (
+              <CarouselItem key={item.id} {...item} />
+            ))}
+          </Carousel>
+        </Categories>
       )}
+
+      <Categories title="Tendencias">
+        <Carousel>
+          {trends.map((item) => (
+            <CarouselItem key={item.id} {...item} />
+          ))}
+        </Carousel>
+      </Categories>
+
+      <Categories title="Originales de Platzi Videos">
+        <Carousel>
+          {originals.map((item) => (
+            <CarouselItem key={item.id} {...item} />
+          ))}
+        </Carousel>
+      </Categories>
     </>
   );
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    mylist: state.mylist,
+    trends: state.trends,
+    originals: state.originals,
+  };
+};
+export default connect(mapStateToProps, null)(Home);
