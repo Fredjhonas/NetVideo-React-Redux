@@ -13,8 +13,7 @@ const API = "http://localhost:3000/initialState";
 const Home = () => {
   const [videos, categories] = useInitialState(API);
   return (
-    <div className="App">
-      <Header />
+    <>
       <Search />
       {categories.map(
         (category) =>
@@ -28,8 +27,7 @@ const Home = () => {
             </Categories>
           )
       )}
-      <Footer />
-    </div>
+    </>
   );
 };
 
