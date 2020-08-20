@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Search from "../components/Search";
 import Categories from "../components/Categories";
 import Carousel from "../components/Carousel";
+import Header from '../components/Header'
 import CarouselItem from "../components/CarouselItem";
-import useInitialState from "../hooks/useInitialState";
+
 import { connect } from "react-redux";
 
 import "../assets/styles/App.scss";
@@ -11,7 +12,8 @@ import "../assets/styles/App.scss";
 const Home = ({ mylist, trends, originals }) => {
   return (
     <>
-      <Search />
+      <Header />
+      <Search isHome />
       {mylist.length > 0 && (
         <Categories title="Mi lista">
           <Carousel>

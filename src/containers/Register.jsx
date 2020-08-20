@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { registerRequest } from '../actions';
 import { Link } from 'react-router-dom';
 import '../assets/styles/components/Register.scss';
+import Header from '../components/Header';
 
 const Register = (props) => {
 	const [ form, setValues ] = useState({
@@ -24,7 +25,9 @@ const Register = (props) => {
 		props.history.push('/');
 	};
 
-	return (
+  return (
+    <>
+     <Header isRegister/> 
 		<section className='register'>
 			<section className='register__container'>
 				<h2>Regístrate</h2>
@@ -42,7 +45,8 @@ const Register = (props) => {
 				</form>
 				<Link to='/login'>Iniciar sesión</Link>
 			</section>
-		</section>
+      </section>
+      </>
 	);
 };
 
