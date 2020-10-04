@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
-import Search from "../components/Search";
-import Categories from "../components/Categories";
-import Carousel from "../components/Carousel";
-import Header from '../components/Header'
-import CarouselItem from "../components/CarouselItem";
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import Search from '../components/Search';
+import Categories from '../components/Categories';
+import Carousel from '../components/Carousel';
+import Header from '../components/Header';
+import CarouselItem from '../components/CarouselItem';
 
-import { connect } from "react-redux";
-
-import "../assets/styles/App.scss";
+import '../assets/styles/App.scss';
 
 const Home = ({ mylist, trends, originals }) => {
   return (
@@ -15,7 +14,7 @@ const Home = ({ mylist, trends, originals }) => {
       <Header />
       <Search isHome />
       {mylist.length > 0 && (
-        <Categories title="Mi lista">
+        <Categories title='Mi lista'>
           <Carousel>
             {mylist.map((item) => (
               <CarouselItem key={item.id} {...item} isList />
@@ -24,7 +23,7 @@ const Home = ({ mylist, trends, originals }) => {
         </Categories>
       )}
 
-      <Categories title="Tendencias">
+      <Categories title='Tendencias'>
         <Carousel>
           {trends.map((item) => (
             <CarouselItem key={item.id} {...item} />
@@ -32,7 +31,7 @@ const Home = ({ mylist, trends, originals }) => {
         </Carousel>
       </Categories>
 
-      <Categories title="Originales de Platzi Videos">
+      <Categories title='Originales de  NetVideo'>
         <Carousel>
           {originals.map((item) => (
             <CarouselItem key={item.id} {...item} />
