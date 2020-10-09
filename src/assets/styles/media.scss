@@ -1,10 +1,27 @@
-@media only screen and (max-width: 600px) {
-  .main__description--title {
-    font-size: 30px;
+  @media (max-width: 767px) {
+    .footer {
+      font-size: x-small;
+    }
+
+    .header__img {
+      margin-left: 0;
+      margin-right:5px;
+    }
+    
+    .header__menu {
+      margin-right: 3px;
+    }
+
+    
+.header__menu--profile p {
+  font-size: x-small;
   }
 
-  .footer {
-    align-items: flex-start;
-    flex-direction: column;
+  .login__container {
+    padding: 60px 25px 40px !important;
+  }
+
+  .register__container {
+    padding: 60px 25px 40px !important;  
   }
 }

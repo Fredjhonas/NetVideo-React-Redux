@@ -10,7 +10,7 @@ import '../assets/styles/App.scss';
 
 const Home = ({ mylist, trends, originals }) => {
   return (
-    <>
+    <div className="home-main">
       <Header />
       <Search isHome />
       {mylist.length > 0 && (
@@ -38,7 +38,7 @@ const Home = ({ mylist, trends, originals }) => {
           ))}
         </Carousel>
       </Categories>
-    </>
+    </div>
   );
 };
 

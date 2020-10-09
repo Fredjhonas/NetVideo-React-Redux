@@ -4,10 +4,16 @@
   flex-direction: column;
   justify-content: center;
   padding: 0px 30px;
-  margin-bottom: 80px;
+  margin-top: 40px;
+  margin-bottom: 40px;
   min-height: calc(
-    100vh - 200px
-  ); /* El ancho serÃ¡ igual al tamaÃ±o de todo el height menos 200px (100px del header + 100px del footer) */
+    100vh - 180px
+  ); 
+}
+
+.login__container  h2 {
+font-size: small;
+text-align: center;
 }
 
 .login__container {
@@ -31,22 +37,6 @@
   font-size: 14px;
 }
 
-.login__container--remember-me {
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.login__container--remember-me a {
-  color: white;
-  font-size: 14px;
-  text-decoration: none;
-}
-
-.login__container--remember-me a:hover {
-  text-decoration: underline;
-}
 
 .login__container--social-media > div {
   align-items: center;

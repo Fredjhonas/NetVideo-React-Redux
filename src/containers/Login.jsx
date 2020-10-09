@@ -40,6 +40,7 @@ const Login = (props) => {
     try {
       setEmail('');
       setPassword('');
+      setName('');
       setError(null);
       props.history.push('/');
 
@@ -66,7 +67,7 @@ const Login = (props) => {
             setName(doc.get('userName'));
           });
       } else {
-        setUser(null);
+        setUser('');
       }
     });
   };
@@ -77,7 +78,7 @@ const Login = (props) => {
 
   return (
     <>
-      <Header isLogin username={user.username} />
+      <Header isLogin />
       <section className='login'>
         <section className='login__container'>
           <h2>Inicia sesión</h2>

@@ -37,6 +37,7 @@ const Register = (props) => {
     try {
       setEmail('');
       setPassword('');
+      setName('');
       setError(null);
       props.history.push('/');
     } catch (error) {

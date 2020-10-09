@@ -1,3 +1,4 @@
+/* eslint-disable react/no-typos */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -29,7 +30,7 @@ const Header = (props) => {
         <img className='header__img' src={logo} alt=' NetVideo' />
       </Link>
 
-      <h3 className='header__title'>Cinema</h3>
+      <h3 className='header__title'>Movies</h3>
       <div className='header__menu'>
         <div className='header__menu--profile'>
           {hasUser ? <img src={gravatar(user.email)} alt={user.email} /> : <img src={userIcon} alt='' />}

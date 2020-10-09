@@ -3,11 +3,17 @@
 	align-items: center;
 	flex-direction: column;
 	justify-content: center;
-	margin-bottom: 80px;
+	margin-top: 40px;
+	margin-bottom: 40px;
 	padding: 0px 30px;
 	min-height: calc(
-		100vh - 200px
+		100vh - 180px
 	); /* El ancho serÃ¡ igual al tamaÃ±o de todo el height menos 200px (100px del header + 100px del footer) */
+}
+
+.register__container h2 {
+	font-size: small;
+	text-align: center;
 }
 .register__container {
 	background-color: rgba(255, 255, 255, 0.1);
@@ -26,6 +32,7 @@
 }
 .register__container a {
 	color: white;
+	margin-top: 10px;
 	font-size: 16px;
 	text-align: center;
 	text-decoration: none;
