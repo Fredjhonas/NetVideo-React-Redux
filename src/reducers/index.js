@@ -1,3 +1,4 @@
+/* eslint-disable no-tabs */
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_FAVORITE':

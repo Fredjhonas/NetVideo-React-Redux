@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import gravatar from '../utils/gravatar';
 import { logoutRequest } from '../actions';
+import fire from '../../fire';
 
 import '../assets/styles/components/header.scss';
 import logo from '../assets/static/netvideo-logo.png';
@@ -16,7 +17,9 @@ const Header = (props) => {
   const hasUser = Object.keys(user).length > 0;
 
   const handleLogout = () => {
-    props.logoutRequest({});
+    fire.auth().signOut().then(() => {
+      props.logoutRequest({});
+    });
   };
 
   const headerClass = classNames('header', {
@@ -46,9 +49,9 @@ const Header = (props) => {
 
           {hasUser ? (
             <li>
-              <a href='#logout' onClick={handleLogout}>
+              <Link to='/login' onClick={handleLogout}>
                 Cerrar Sesión
-              </a>
+              </Link>
             </li>
           ) : (
             <li>

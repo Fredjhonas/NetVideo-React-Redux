@@ -40,3 +40,11 @@
 .register__container a:hover {
 	text-decoration: underline;
 }
+
+.errorMsg {
+	margin-block-start: 0.5em;
+	margin-block-end: 0;
+	text-align: center;
+	font-size: x-small;
+	color: red;
+  }

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React from 'react';
 import { connect } from 'react-redux';
 import Search from '../components/Search';
 import Categories from '../components/Categories';
@@ -10,7 +11,7 @@ import '../assets/styles/App.scss';
 
 const Home = ({ mylist, trends, originals }) => {
   return (
-    <div className="home-main">
+    <div className='home-main'>
       <Header />
       <Search isHome />
       {mylist.length > 0 && (

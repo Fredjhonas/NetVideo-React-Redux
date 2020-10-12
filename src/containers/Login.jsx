@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/button-has-type */
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
@@ -10,55 +11,37 @@ import Header from '../components/Header';
 import fire from '../../fire';
 
 const Login = (props) => {
-  /*const [form, setValues] = useState({
-    email: '',
-  });*/
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  const [user, setUser] = useState('');
-  const [username, setName] = useState('');
-
-  /*const handleInput = (event) => {
-    setValues({
-      ...form,
-      [event.target.name]: event.target.value,
-    });
-  };*/
-
-  /*const handleSubmit = (event) => {
-    event.preventDefault();
-    props.loginRequest({ email, password });
-    props.history.push('/');
-  };*/
+  //const [user, setUser] = useState(null);
+  //const [username, setName] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.loginRequest({ email, password, username });
-    fire.auth().signInWithEmailAndPassword(email, password);
-    try {
+    fire.auth().signInWithEmailAndPassword(email, password).then(() => {
       setEmail('');
       setPassword('');
-      setName('');
       setError(null);
+      props.loginRequest({ email, password });
       props.history.push('/');
-
-    } catch (error) {
-      console.log(error);
-      // setError(error.message)
-      if (error.code === 'auth/email-already-in-use') {
-        setError('Usuario ya registrado...');
-        return;
+    }).catch((err) => {
+      switch (err.code) {
+        case 'auth/invalid-email':
+        case 'auth/user-disabled':
+        case 'auth/user-not-found':
+          setError('Usuario no existe o es incorrecto');
+          break;
+        case 'auth/wrong-password':
+          setError('Contraseña incorrecta');
+          break;
+        default:
       }
-      if (error.code === 'auth/invalid-email') {
-        setError('Email no válido');
-
-      }
-    }
+    });
   };
 
-  const authListener = () => {
+  /*const authListener = () => {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
@@ -67,14 +50,14 @@ const Login = (props) => {
             setName(doc.get('userName'));
           });
       } else {
-        setUser('');
+        setUser(null);
       }
     });
   };
 
   useEffect(() => {
     authListener();
-  });
+  }, []);*/
 
   return (
     <>
@@ -87,6 +70,7 @@ const Login = (props) => {
               name='email'
               className='input'
               type='text'
+              required
               placeholder='Correo'
               onChange={(e) => setEmail(e.target.value)}
               value={email}
@@ -96,9 +80,11 @@ const Login = (props) => {
               className='input'
               type='password'
               placeholder='Contraseña'
+              required
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
+            <p className='errorMsg'>{error}</p>
             <button className='button'>Iniciar sesión</button>
 
           </form>
