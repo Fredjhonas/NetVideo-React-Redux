@@ -74,3 +74,6 @@ yarn-error.log
 
 # Build
 dist/
+
+#Base de datos
+fire.js
