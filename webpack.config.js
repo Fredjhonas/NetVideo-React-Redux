@@ -65,7 +65,7 @@ module.exports = {
     }),
 
     new MiniCssExtractPlugin({
-      filename: 'assets/styles/[name].css',
+      filename: './src/assets/styles/[name].css',
     }),
   ],
 };
