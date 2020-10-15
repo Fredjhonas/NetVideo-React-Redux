@@ -17,7 +17,7 @@ const initialState = {
   mylist: [],
   trends: [
     {
-      id: 2,
+      id: 1,
       slug: 'tvshow-2',
       title: 'In the Dark',
       type: 'Scripted',
@@ -30,7 +30,7 @@ const initialState = {
       source: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-      id: 3,
+      id: 2,
       slug: 'tvshow-3',
       title: 'Instinct',
       type: 'Adventure',
@@ -43,7 +43,7 @@ const initialState = {
       source: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-      id: 4,
+      id: 3,
       slug: 'tvshow-4',
       title: 'Grand Hotel',
       type: 'Comedy',
@@ -56,7 +56,7 @@ const initialState = {
       source: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-      id: 5,
+      id: 4,
       slug: 'tvshow-5',
       title: 'Stargate Atlantis',
       type: 'Scripted',
@@ -69,7 +69,7 @@ const initialState = {
       source: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-      id: 6,
+      id: 5,
       slug: 'tvshow-6',
       title: 'Final Space',
       type: 'Scripted',
@@ -82,7 +82,7 @@ const initialState = {
       source: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-      id: 16,
+      id: 6,
       slug: 'tvshow-7',
       title: 'The InBetween',
       type: 'Drama',
@@ -95,7 +95,7 @@ const initialState = {
       source: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-      id: 17,
+      id: 7,
       slug: 'tvshow-8',
       title: 'Stargate Atlantis',
       type: 'Action',
@@ -108,7 +108,7 @@ const initialState = {
       source: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-      id: 9,
+      id: 8,
       slug: 'tvshow-9',
       title: 'Alien Highway',
       type: 'Action',
@@ -123,7 +123,7 @@ const initialState = {
   ],
   originals: [
     {
-      id: 8,
+      id: 9,
       slug: 'tvshow-8',
       title: 'Stargate Atlantis',
       type: 'Action',
@@ -136,7 +136,7 @@ const initialState = {
       source: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-      id: 9,
+      id: 10,
       slug: 'tvshow-9',
       title: 'Alien Highway',
       type: 'Action',
@@ -149,7 +149,7 @@ const initialState = {
       source: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-      id: 10,
+      id: 11,
       slug: 'tvshow-10',
       title: 'Elementary',
       type: 'Animation',
@@ -162,7 +162,7 @@ const initialState = {
       source: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-      id: 11,
+      id: 12,
       slug: 'tvshow-11',
       title: 'Strange Angel',
       type: 'War',
@@ -175,7 +175,7 @@ const initialState = {
       source: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-      id: 12,
+      id: 13,
       slug: 'tvshow-12',
       title: 'Private Eyes',
       type: 'Comedy',
@@ -188,7 +188,7 @@ const initialState = {
       source: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-      id: 13,
+      id: 14,
       slug: 'tvshow-13',
       title: 'NCIS: Los Angeles',
       type: 'Drama',
@@ -201,7 +201,7 @@ const initialState = {
       source: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-      id: 14,
+      id: 15,
       slug: 'tvshow-11',
       title: 'Strange Angel',
       type: 'War',
@@ -214,7 +214,7 @@ const initialState = {
       source: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-      id: 15,
+      id: 16,
       slug: 'tvshow-13',
       title: 'NCIS: Los Angeles',
       type: 'Drama',
