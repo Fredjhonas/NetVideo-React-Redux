@@ -18,6 +18,20 @@ const Login = (props) => {
   //const [user, setUser] = useState(null);
   //const [username, setName] = useState('');
 
+  /*const authListener = () => {
+    fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+        fire.firestore().collection('user').doc(user.uid).get()
+          .then((doc) => {
+            setName(doc.get('userName'));
+          });
+      } else {
+        setUser(null);
+      }
+    });
+  };*/
+
   const handleSubmit = (event) => {
     event.preventDefault();
     fire.auth().signInWithEmailAndPassword(email, password).then(() => {
@@ -26,6 +40,7 @@ const Login = (props) => {
       setError(null);
       props.loginRequest({ email, password });
       props.history.push('/');
+
     }).catch((err) => {
       switch (err.code) {
         case 'auth/invalid-email':
@@ -41,21 +56,7 @@ const Login = (props) => {
     });
   };
 
-  /*const authListener = () => {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-        fire.firestore().collection('user').doc(user.uid).get()
-          .then((doc) => {
-            setName(doc.get('userName'));
-          });
-      } else {
-        setUser(null);
-      }
-    });
-  };
-
-  useEffect(() => {
+  /*useEffect(() => {
     authListener();
   }, []);*/
 

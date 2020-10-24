@@ -1,45 +1,55 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { connect, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setFavorite, deleteFavorite } from '../actions';
 import '../assets/styles/components/CarouselItem.scss';
-import playIcon from '../assets/static/play-icon.png';
+import '../assets/styles/components/Categories.scss';
+//import playIcon from '../assets/static/play-icon.png';
 import plusIcon from '../assets/static/plus-icon.png';
 import removeIcon from '../assets/static/remove-icon.png';
 
-const CarouselItem = (props) => {
-  const { user, id, cover, title, year, contentRating, duration, isList } = props;
+const MovieItem = (props) => {
+  const {
+    id,
+    year,
+    image,
+    votes,
+    calification,
+    title,
+    isList } = props;
+
+  const user = useSelector((state) => state.data.user);
   const hasUser = Object.keys(user).length > 0;
 
   const handleSetFavorite = () => {
     props.setFavorite({
       id,
-      cover,
-      title,
       year,
-      contentRating,
-      duration,
+      image,
+      votes,
+      calification,
+      title,
     });
   };
 
   const handleDeleteFavorite = (itemId) => {
     props.deleteFavorite(itemId);
   };
+
   return (
-    <div className='carousel-item'>
-      <img className='carousel-item__img' src={cover} alt={title} />
+    <div className='carousel-item' key={id}>
+      <img className='carousel-item__img' src={image} alt={image} />
       <div className='carousel-item__details'>
         <div>
-          {hasUser ? (
-            <Link to={`/player/${id}`}>
-              <img className='carousel-item__details--img' src={playIcon} alt='Play Icon' />
-            </Link>
-          ) : (
-            <Link to='/login'>
-              <img className='carousel-item__details--img' src={playIcon} alt='Play Icon' />
-            </Link>
-          )}
+          {/*{hasUser ? (
+                  <Link to={`/player/${id}`}>
+                    <img className='carousel-item__details--img' src={playIcon} alt='Play Icon' />
+                  </Link>
+                ) : (
+                  <Link to='/login'>
+                    <img className='carousel-item__details--img' src={playIcon} alt='Play Icon' />
+                  </Link>
+                )}*/}
 
           {hasUser ? (
             <>
@@ -71,18 +81,19 @@ const CarouselItem = (props) => {
         </div>
 
         <p className='carousel-item__details--title'>{title}</p>
-        <p className='carousel-item__details--subtitle'>{`${year} ${contentRating} ${duration} `}</p>
+
+        <p className='carousel-item__details--subtitle'>{` Votos: ${votes}`}</p>
+        <p className='carousel-item__details--subtitle'>
+          {`Calificación: ${calification}`}
+          {' '}
+        </p>
+        <p className='carousel-item__details--subtitle'>
+          {`Lanzamiento: ${year}`}
+          {' '}
+        </p>
       </div>
     </div>
   );
-};
-
-CarouselItem.propTypes = {
-  cover: PropTypes.string,
-  title: PropTypes.string,
-  year: PropTypes.number,
-  contentRating: PropTypes.string,
-  duration: PropTypes.number,
 };
 
 const mapDispatchToProps = {
@@ -90,10 +101,5 @@ const mapDispatchToProps = {
   deleteFavorite,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
+export default connect(null, mapDispatchToProps)(MovieItem);
 
-export default connect(mapStateToProps, mapDispatchToProps)(CarouselItem);

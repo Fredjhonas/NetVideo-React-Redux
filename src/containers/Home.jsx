@@ -1,15 +1,42 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Search from '../components/Search';
-import Categories from '../components/Categories';
-import Carousel from '../components/Carousel';
 import Header from '../components/Header';
-import CarouselItem from '../components/CarouselItem';
+import MovieItem from '../components/MovieItem';
+import Carousel from '../components/Carousel';
+import Categories from '../components/Categories';
+import Loader from '../components/Loader';
 
 import '../assets/styles/App.scss';
 
-const Home = ({ mylist, trends, originals }) => {
+const Home = () => {
+
+  const data = useSelector((state) => state.data.data);
+  const loading = useSelector((state) => state.data.loading);
+  const mylist = useSelector((state) => state.data.mylist);
+
+  let ResultData;
+  if (!data && !loading) {
+    ResultData = <Loader />;
+  } else
+  if (loading) {
+    ResultData = <Loader />;
+  } else {
+    ResultData = (
+      data.map((item) => {
+        const image = `https://image.tmdb.org/t/p/w500${item.poster_path}`;
+        const { id } = item;
+        const calification = item.vote_average;
+        const votes = item.vote_count;
+        const year = item.release_date;
+        const { title } = item;
+
+        return (
+          <MovieItem key={id} image={image} id={id} calification={calification} votes={votes} year={year} title={title} />
+        );
+      }));
+  }
   return (
     <div className='home-main'>
       <Header />
@@ -18,36 +45,21 @@ const Home = ({ mylist, trends, originals }) => {
         <Categories title='Mi lista'>
           <Carousel>
             {mylist.map((item) => (
-              <CarouselItem key={item.id} {...item} isList />
+              <MovieItem key={item.id} id={item.id} {...item} isList />
             ))}
           </Carousel>
         </Categories>
       )}
 
-      <Categories title='Tendencias'>
-        <Carousel>
-          {trends.map((item) => (
-            <CarouselItem key={item.id} {...item} />
-          ))}
-        </Carousel>
-      </Categories>
-
-      <Categories title='Originales de  NetVideo'>
-        <Carousel>
-          {originals.map((item) => (
-            <CarouselItem key={item.id} {...item} />
-          ))}
-        </Carousel>
-      </Categories>
+      {ResultData.length > 0 && (
+        <Categories title='Resultados'>
+          <Carousel>
+            {ResultData}
+          </Carousel>
+        </Categories>
+      ) }
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    mylist: state.mylist,
-    trends: state.trends,
-    originals: state.originals,
-  };
-};
-export default connect(mapStateToProps, null)(Home);
+export default Home;

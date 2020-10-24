@@ -1,11 +1,11 @@
 /* eslint-disable react/no-typos */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import gravatar from '../utils/gravatar';
-import { logoutRequest } from '../actions';
+import { logoutRequest } from '../actions/index';
 import fire from '../../fire';
 
 import '../assets/styles/components/header.scss';
@@ -13,7 +13,9 @@ import logo from '../assets/static/netvideo-logo.png';
 import userIcon from '../assets/static/user-icon.png';
 
 const Header = (props) => {
-  const { user, isLogin, isRegister } = props;
+  const { isLogin, isRegister } = props;
+
+  const user = useSelector((state) => state.data.user);
   const hasUser = Object.keys(user).length > 0;
 
   const handleLogout = () => {
@@ -64,12 +66,6 @@ const Header = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
-
 const mapDispatchToProps = {
   logoutRequest,
 };
@@ -79,4 +75,4 @@ Header.PropTypes = {
   logoutRequest: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(null, mapDispatchToProps)(Header);

@@ -4,7 +4,9 @@ export const actions = {
   loginRequest: 'LOGIN_REQUEST',
   logoutRequest: 'LOGOUT_REQUEST',
   registerRequest: 'REGISTER_REQUEST',
-  getVideoSource: 'GET_VIDEO_SOURCE',
+  FETCH_CUSTOMER: 'FETCH_CUSTOMER',
+  LOADING_CUSTOMER: 'LOADING_CUSTOMER',
+  ERROR_CUSTOMER: 'ERROR_CUSTOMER',
 };
 
 export const setFavorite = (payload) => ({
@@ -31,7 +33,39 @@ export const registerRequest = (payload) => ({
   payload,
 });
 
-export const getVideoSource = (payload) => ({
-  type: actions.getVideoSource,
-  payload,
-});
+export const searchFetchApi = (search) => {
+  return async function (dispatch) {
+
+    if (search === '') {
+      const errorTexto = 'Usted no escribio nada';
+      dispatch({ type: actions.ERROR_CUSTOMER, payload: errorTexto });
+      return;
+    }
+
+    const keyApi = '1e6296feeb7565b54f1f8ea079f7e70e';
+    const apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${keyApi}&language=es&query=${search}`;
+
+    const loadingTrue = true;
+    dispatch({ type: actions.LOADING_CUSTOMER, payload: loadingTrue });
+
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    const filterData = data.results.slice(0, 10).map((movie) => movie);
+
+    const loandigFalse = false;
+    if (filterData === undefined) {
+
+      const errorTexto = 'La pelicula no se encontro';
+      dispatch({ type: actions.ERROR_CUSTOMER, payload: errorTexto });
+      dispatch({ type: actions.LOADING_CUSTOMER, payload: loandigFalse });
+
+    } else {
+
+      dispatch({ type: actions.FETCH_CUSTOMER, payload: filterData });
+      dispatch({ type: actions.LOADING_CUSTOMER, payload: loandigFalse });
+      dispatch({ type: actions.ERROR_CUSTOMER, payload: false });
+
+    }
+
+  };
+};
