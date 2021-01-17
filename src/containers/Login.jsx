@@ -1,72 +1,80 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/button-has-type */
-import React, { useState, useEffect } from 'react';
+/* eslint-disable vars-on-top */
+/* eslint-disable no-var */
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { loginRequest } from '../actions';
 
 import '../assets/styles/components/Login.scss';
+import '../assets/styles/components/Loader.scss';
 import googleIcon from '../assets/static/google-icon.png';
 import Header from '../components/Header';
-import fire from '../../fire';
+import Loader from '../components/Loader';
+import { db, auth } from '../../fire';
 
 const Login = (props) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  //const [user, setUser] = useState(null);
-  //const [username, setName] = useState('');
-
-  /*const authListener = () => {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-        fire.firestore().collection('user').doc(user.uid).get()
-          .then((doc) => {
-            setName(doc.get('userName'));
-          });
-      } else {
-        setUser(null);
-      }
-    });
-  };*/
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event) => {
+    setLoading(true);
     event.preventDefault();
-    fire.auth().signInWithEmailAndPassword(email, password).then(() => {
-      setEmail('');
-      setPassword('');
-      setError(null);
-      props.loginRequest({ email, password });
-      props.history.push('/');
+    auth.signInWithEmailAndPassword(email, password)
+      .then(() => {
+        setEmail('');
+        setPassword('');
+        setError(null);
+      })
+      .catch((err) => {
+        switch (err.code) {
+          case 'auth/invalid-email':
+          case 'auth/user-disabled':
+          case 'auth/user-not-found':
+            setError('Usuario no existe o es incorrecto');
+            break;
+          case 'auth/wrong-password':
+            setError('Contraseña incorrecta');
+            break;
+          default:
+        }
+      });
 
-    }).catch((err) => {
-      switch (err.code) {
-        case 'auth/invalid-email':
-        case 'auth/user-disabled':
-        case 'auth/user-not-found':
-          setError('Usuario no existe o es incorrecto');
-          break;
-        case 'auth/wrong-password':
-          setError('Contraseña incorrecta');
-          break;
-        default:
-      }
+    auth.onAuthStateChanged(async (user) => {
+      const docRef = db.collection('user').doc(user.uid);
+      await docRef.get().then((doc) => {
+        if (doc.exists) {
+          const username = doc.get('userName');
+          console.log('Documento data:', username);
+          localStorage.setItem('usuario', JSON.stringify({
+            username,
+            email: user.email,
+          }));
+          props.loginRequest({ email, password, username });
+          props.history.push('/');
+        } else {
+        // doc.data() will be undefined in this case
+          console.log('No existe documento!');
+        }
+      }).catch((error) => {
+        console.log('Error recuperando documento:', error);
+      });
+
     });
   };
-
-  /*useEffect(() => {
-    authListener();
-  }, []);*/
 
   return (
     <>
       <Header isLogin />
       <section className='login'>
         <section className='login__container'>
+          <div>
+            { loading ? (<Loader />) : null }
+          </div>
           <h2>Inicia sesión</h2>
-          <form className='login__container--form' onSubmit={handleSubmit}>
+          <form className='login__container--form' onSubmit={handleSubmit} disabled={loading}>
             <input
               name='email'
               className='input'

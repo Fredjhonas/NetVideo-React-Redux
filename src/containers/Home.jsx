@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { useSelector } from 'react-redux';
+import noPoster from '../assets/static/noposter.jpg';
 import Search from '../components/Search';
 import Header from '../components/Header';
 import MovieItem from '../components/MovieItem';
@@ -25,7 +26,12 @@ const Home = () => {
   } else {
     ResultData = (
       data.map((item) => {
-        const image = `https://image.tmdb.org/t/p/w500${item.poster_path}`;
+        let image;
+        if (item.poster_path === null) {
+          image = noPoster;
+        } else {
+          image = `https://image.tmdb.org/t/p/w500${item.poster_path}`;
+        }
         const { id } = item;
         const calification = item.vote_average;
         const votes = item.vote_count;

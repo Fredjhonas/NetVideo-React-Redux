@@ -2,6 +2,7 @@ import React from 'react';
 import { connect, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setFavorite, deleteFavorite } from '../actions';
+
 import '../assets/styles/components/CarouselItem.scss';
 import '../assets/styles/components/Categories.scss';
 //import playIcon from '../assets/static/play-icon.png';
@@ -22,6 +23,7 @@ const MovieItem = (props) => {
   const hasUser = Object.keys(user).length > 0;
 
   const handleSetFavorite = () => {
+
     props.setFavorite({
       id,
       year,

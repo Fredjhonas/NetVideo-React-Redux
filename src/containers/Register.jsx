@@ -7,19 +7,22 @@ import { Link } from 'react-router-dom';
 import { registerRequest } from '../actions';
 import '../assets/styles/components/Register.scss';
 import Header from '../components/Header';
-import fire from '../../fire';
+import Loader from '../components/Loader';
+import { auth, db } from '../../fire';
 
 const Register = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setName] = useState('');
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event) => {
+    setLoading(true);
     event.preventDefault();
-    fire.auth().createUserWithEmailAndPassword(email, password)
+    auth.createUserWithEmailAndPassword(email, password)
       .then((cred) => {
-        fire.firestore().collection('user').doc(cred.user.uid).set({
+        db.collection('user').doc(cred.user.uid).set({
           userName: username,
         });
       }).then(() => {
@@ -27,8 +30,7 @@ const Register = (props) => {
         setPassword('');
         setName('');
         setError(null);
-        props.registerRequest({ email, password, username });
-        props.history.push('/');
+
       })
       .catch((err) => {
         switch (err.code) {
@@ -41,6 +43,14 @@ const Register = (props) => {
           default:
         }
       });
+    auth.onAuthStateChanged(async (user) => {
+      localStorage.setItem('usuario', JSON.stringify({
+        username,
+        email: user.email,
+      }));
+      props.registerRequest({ email, password, username });
+      props.history.push('/');
+    });
   };
 
   return (
@@ -48,8 +58,11 @@ const Register = (props) => {
       <Header isRegister />
       <section className='register'>
         <section className='register__container'>
+          <div>
+            { loading ? (<Loader />) : null }
+          </div>
           <h2>Regístrate</h2>
-          <form className='register__container--form' onSubmit={handleSubmit}>
+          <form className='register__container--form' onSubmit={handleSubmit} disabled={loading}>
             <input
               name='name'
               className='input'

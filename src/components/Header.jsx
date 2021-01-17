@@ -1,12 +1,12 @@
 /* eslint-disable react/no-typos */
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+//import PropTypes from 'prop-types';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import gravatar from '../utils/gravatar';
-import { logoutRequest } from '../actions/index';
-import fire from '../../fire';
+import { logoutRequest, cerrarSesionAccion } from '../actions/index';
+import { auth } from '../../fire';
 
 import '../assets/styles/components/header.scss';
 import logo from '../assets/static/netvideo-logo.png';
@@ -14,12 +14,12 @@ import userIcon from '../assets/static/user-icon.png';
 
 const Header = (props) => {
   const { isLogin, isRegister } = props;
-
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.data.user);
-  const hasUser = Object.keys(user).length > 0;
 
   const handleLogout = () => {
-    fire.auth().signOut().then(() => {
+    auth.signOut().then(() => {
+      dispatch(cerrarSesionAccion());
       props.logoutRequest({});
     });
   };
@@ -28,6 +28,52 @@ const Header = (props) => {
     isLogin,
     isRegister,
   });
+
+  if (localStorage.getItem('usuario')) {
+    const user = JSON.parse(localStorage.getItem('usuario'));
+    console.log('Soy user localStorge', user);
+    console.log('usuario', user);
+
+    return (
+      <header className={headerClass}>
+        <Link to='/'>
+          <img className='header__img' src={logo} alt=' NetVideo' />
+        </Link>
+
+        <h3 className='header__title'>Movies</h3>
+        <div className='header__menu'>
+          <div className='header__menu--profile'>
+            <img src={gravatar(user.email)} alt={user.email} />
+            {' '}
+
+            <p>
+              {' '}
+              <span>Hola, </span>
+              {user.username}
+
+            </p>
+          </div>
+          <ul>
+
+            <li>
+              <a href='/'>
+                {' '}
+                <span>Perfil</span>
+
+              </a>
+            </li>
+
+            <li>
+              <Link to='/login' onClick={handleLogout}>
+                Cerrar Sesión
+              </Link>
+            </li>
+
+          </ul>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className={headerClass}>
@@ -38,41 +84,23 @@ const Header = (props) => {
       <h3 className='header__title'>Movies</h3>
       <div className='header__menu'>
         <div className='header__menu--profile'>
-          {hasUser ? <img src={gravatar(user.email)} alt={user.email} /> : <img src={userIcon} alt='' />}
+          <img src={userIcon} alt='' />
 
           <p>Perfil</p>
         </div>
         <ul>
-          {hasUser ? (
-            <li>
-              <a href='/'>{user.username}</a>
-            </li>
-          ) : null}
-
-          {hasUser ? (
-            <li>
-              <Link to='/login' onClick={handleLogout}>
-                Cerrar Sesión
-              </Link>
-            </li>
-          ) : (
-            <li>
-              <Link to='/login'>Iniciar sesion</Link>
-            </li>
-          )}
+          <li>
+            <Link to='/login'>Iniciar sesion</Link>
+          </li>
         </ul>
       </div>
     </header>
   );
+
 };
 
 const mapDispatchToProps = {
   logoutRequest,
-};
-
-Header.PropTypes = {
-  user: PropTypes.object,
-  logoutRequest: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Header);

@@ -28,9 +28,9 @@ const Search = (isHome) => {
 
   return (
     <>
-      {err ? console.log(err) : null}
       <section className='main'>
         <h2 className='main__title'>¿Qué quieres ver hoy?</h2>
+        {err ? <div className='main__title'>{err}</div> : null}
         <form className='search' onSubmit={handleSubmit}>
           <input
             type='text'
