@@ -1,29 +1,19 @@
-import React from 'react';
-import { connect, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { setFavorite, deleteFavorite } from '../actions';
+import React from "react";
+import { connect, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { setFavorite, deleteFavorite } from "../actions";
+import { auth, db } from "./../firebase/utils";
 
-import '../assets/styles/components/CarouselItem.scss';
-import '../assets/styles/components/Categories.scss';
+import "../assets/styles/components/CarouselItem.scss";
+import "../assets/styles/components/Categories.scss";
 //import playIcon from '../assets/static/play-icon.png';
-import plusIcon from '../assets/static/plus-icon.png';
-import removeIcon from '../assets/static/remove-icon.png';
+import plusIcon from "../assets/static/plus-icon.png";
+import removeIcon from "../assets/static/remove-icon.png";
 
 const MovieItem = (props) => {
-  const {
-    id,
-    year,
-    image,
-    votes,
-    calification,
-    title,
-    isList } = props;
-
-  const user = useSelector((state) => state.data.user);
-  const hasUser = Object.keys(user).length > 0;
+  const { id, year, image, votes, calification, title, isList } = props;
 
   const handleSetFavorite = () => {
-
     props.setFavorite({
       id,
       year,
@@ -37,11 +27,13 @@ const MovieItem = (props) => {
   const handleDeleteFavorite = (itemId) => {
     props.deleteFavorite(itemId);
   };
+  const { currentUser } = props;
+  //console.log("Usuario", currentUser);
 
   return (
-    <div className='carousel-item' key={id}>
-      <img className='carousel-item__img' src={image} alt={image} />
-      <div className='carousel-item__details'>
+    <div className="carousel-item" key={id}>
+      <img className="carousel-item__img" src={image} alt={image} />
+      <div className="carousel-item__details">
         <div>
           {/*{hasUser ? (
                   <Link to={`/player/${id}`}>
@@ -53,45 +45,43 @@ const MovieItem = (props) => {
                   </Link>
                 )}*/}
 
-          {hasUser ? (
+          {currentUser ? (
             <>
               {isList ? (
                 <img
-                  className='carousel-item__details--img'
+                  className="carousel-item__details--img"
                   src={removeIcon}
-                  alt='Remove Icon'
+                  alt="Remove Icon"
                   onClick={() => handleDeleteFavorite(id)}
                 />
               ) : (
                 <img
-                  className='carousel-item__details--img'
+                  className="carousel-item__details--img"
                   src={plusIcon}
-                  alt='Plus Icon'
+                  alt="Plus Icon"
                   onClick={handleSetFavorite}
                 />
               )}
             </>
           ) : (
-            <Link to='/login'>
+            <Link to="/login">
               <img
-                className='carousel-item__details--img'
+                className="carousel-item__details--img"
                 src={plusIcon}
-                alt='Plus Icon'
+                alt="Plus Icon"
               />
             </Link>
           )}
         </div>
 
-        <p className='carousel-item__details--title'>{title}</p>
+        <p className="carousel-item__details--title">{title}</p>
 
-        <p className='carousel-item__details--subtitle'>{` Votos: ${votes}`}</p>
-        <p className='carousel-item__details--subtitle'>
-          {`Calificación: ${calification}`}
-          {' '}
+        <p className="carousel-item__details--subtitle">{` Votos: ${votes}`}</p>
+        <p className="carousel-item__details--subtitle">
+          {`Calificación: ${calification}`}{" "}
         </p>
-        <p className='carousel-item__details--subtitle'>
-          {`Lanzamiento: ${year}`}
-          {' '}
+        <p className="carousel-item__details--subtitle">
+          {`Lanzamiento: ${year}`}{" "}
         </p>
       </div>
     </div>
@@ -102,6 +92,8 @@ const mapDispatchToProps = {
   setFavorite,
   deleteFavorite,
 };
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser,
+});
 
-export default connect(null, mapDispatchToProps)(MovieItem);
-
+export default connect(mapStateToProps, mapDispatchToProps)(MovieItem);

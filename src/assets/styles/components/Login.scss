@@ -6,14 +6,12 @@
   padding: 0px 30px;
   margin-top: 40px;
   margin-bottom: 40px;
-  min-height: calc(
-    100vh - 180px
-  ); 
+  min-height: calc(100vh - 180px);
 }
 
-.login__container  h2 {
-font-size: small;
-text-align: center;
+.login__container h2 {
+  font-size: small;
+  text-align: center;
 }
 
 .login__container {
@@ -37,12 +35,19 @@ text-align: center;
   font-size: 14px;
 }
 
-
 .login__container--social-media > div {
   align-items: center;
+  justify-content: center;
   display: flex;
   font-size: 14px;
   margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.link_google {
+  text-align: center;
+  cursor: pointer;
+  display: contents;
 }
 
 .login__container--social-media > div > img {
@@ -84,4 +89,8 @@ text-align: center;
   margin-bottom: 20px;
   outline: none;
   padding: 0px 20px;
+}
+
+.recovery_link {
+  text-align: center;
 }

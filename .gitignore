@@ -77,3 +77,7 @@ dist/
 
 #Base de datos
 fire.js
+config.js
+
+#paquetes
+package-lock.json
