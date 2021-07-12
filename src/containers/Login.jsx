@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, useHistory } from "react-router-dom";
 
 import "../assets/styles/components/Login.scss";
 import "../assets/styles/components/Loader.scss";
@@ -14,6 +14,7 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState([]);
   const [loading, setLoading] = useState(false);
+  let history = useHistory();
 
   const resetForm = () => {
     setEmail("");
@@ -27,9 +28,10 @@ const Login = (props) => {
     try {
       await auth.signInWithEmailAndPassword(email, password);
       resetForm();
-      props.history.push("/");
+      history.replace("/");
     } catch (error) {
       //console.log(error);
+      setLoading(false);
       switch (error.code) {
         case "auth/invalid-email":
         case "auth/user-disabled":
@@ -75,6 +77,7 @@ const Login = (props) => {
               value={password}
             />
             <p className="errorMsg">{error}</p>
+            <br />
             <button className="button">Iniciar sesión</button>
           </form>
           <section className="login__container--social-media">

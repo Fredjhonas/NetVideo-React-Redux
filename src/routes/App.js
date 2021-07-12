@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import { auth, handleUserProfile } from "./../firebase/utils";
-import { setCurrentUser } from "./../reducers/User/user.actions";
+import { setCurrentUser } from "../redux/User/user.actions";
 
 //containers
 import Home from "../containers/Home";

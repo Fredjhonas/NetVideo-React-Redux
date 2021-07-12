@@ -1,9 +1,10 @@
 import React from "react";
-import { connect, useSelector, useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 import gravatar from "../utils/gravatar";
 import { auth } from "./../firebase/utils";
+import { cerrarSesionAccion } from "../redux/User/user.actions";
 
 import "../assets/styles/components/header.scss";
 import logo from "../assets/static/netvideo-logo.png";
@@ -11,13 +12,18 @@ import userIcon from "../assets/static/user-icon.png";
 
 const Header = (props) => {
   const { isLogin, isRegister } = props;
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
   //const user = useSelector((state) => state.data.user);
 
   const headerClass = classNames("header", {
     isLogin,
     isRegister,
   });
+
+  const cerrarSesion = () => {
+    auth.signOut();
+    dispatch(cerrarSesionAccion());
+  };
 
   const { currentUser } = props;
 
@@ -38,6 +44,7 @@ const Header = (props) => {
               <img src={gravatar(currentUser.email)} alt={currentUser.email} />
               <p>
                 <span>Hola, </span>
+                <br />
                 {currentUser.displayName}
               </p>
             </div>
@@ -50,7 +57,7 @@ const Header = (props) => {
               </li>
 
               <li>
-                <Link to="/login" onClick={() => auth.signOut()}>
+                <Link to="/login" onClick={cerrarSesion}>
                   Cerrar Sesión
                 </Link>
               </li>

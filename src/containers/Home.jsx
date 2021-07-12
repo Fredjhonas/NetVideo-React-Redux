@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import noPoster from "../assets/static/noposter.jpg";
 import Search from "../components/Search";
 import Header from "../components/Header";
@@ -7,13 +7,20 @@ import MovieItem from "../components/MovieItem";
 import Carousel from "../components/Carousel";
 import Categories from "../components/Categories";
 import Loader from "../components/Loader";
+import { fetchFavorites } from "../redux/Movie/movie.actions";
 
 import "../assets/styles/App.scss";
 
+const mapState = ({ user }) => ({
+  currentUser: user.currentUser,
+});
+
 const Home = () => {
-  const data = useSelector((state) => state.data.data);
-  const loading = useSelector((state) => state.data.loading);
-  const mylist = useSelector((state) => state.data.mylist);
+  const { currentUser } = useSelector(mapState);
+  const data = useSelector((state) => state.movie.data);
+  const loading = useSelector((state) => state.movie.loading);
+  const mylist = useSelector((state) => state.movie.mylist);
+  let dispatch = useDispatch();
 
   let ResultData;
   if (!data && !loading) {
@@ -47,6 +54,17 @@ const Home = () => {
       );
     });
   }
+
+  useEffect(() => {
+    if (
+      currentUser &&
+      Object.keys(currentUser).length > 0 &&
+      mylist.length === 0
+    ) {
+      dispatch(fetchFavorites());
+    }
+  }, [currentUser]);
+
   return (
     <div className="home-main">
       <Header />
@@ -54,12 +72,15 @@ const Home = () => {
       {mylist.length > 0 && (
         <Categories title="Mi lista">
           <Carousel>
-            {mylist.map((item) => (
-              <MovieItem key={item.id} id={item.id} {...item} isList />
-            ))}
+            {mylist.map((item, index) => {
+              return <MovieItem key={item.id} id={item.id} {...item} isList />;
+            })}
           </Carousel>
         </Categories>
       )}
+
+      <br />
+      <br />
 
       {ResultData.length > 0 && (
         <Categories title="Resultados">

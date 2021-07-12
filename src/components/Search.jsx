@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MdSearch } from "react-icons/md";
-import { searchFetchApi } from "../actions/index";
+import { searchFetchApi } from "../redux/Movie/movie.actions";
 
 import "../assets/styles/components/Search.scss";
 
@@ -11,7 +11,7 @@ const Search = (isHome) => {
   const dispatch = useDispatch();
   const fetchApi = (search) => dispatch(searchFetchApi(search));
 
-  const err = useSelector((state) => state.data.err);
+  const err = useSelector((state) => state.movie.err);
 
   const handleChange = (e) => {
     setSearch(e.target.value);
@@ -27,7 +27,7 @@ const Search = (isHome) => {
       <section className="main">
         <h2 className="main__title">¿Qué quieres ver hoy?</h2>
         {err ? <div className="main__title">{err}</div> : null}
-        <form className="search" onSubmit={handleSubmit}>
+        <form className="search col-md-6" onSubmit={handleSubmit}>
           <input
             type="text"
             className="search_input"

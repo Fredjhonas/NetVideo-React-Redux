@@ -1,4 +1,6 @@
-const initialState = {
+import userTypes from "./movie.types";
+
+const INITIAL_STATE = {
   data: false,
   loading: false,
   activo: false,
@@ -6,12 +8,12 @@ const initialState = {
   mylist: [],
 };
 
-export default function (state = initialState, action) {
+const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "SET_FAVORITE":
       return {
         ...state,
-        mylist: [...state.mylist, action.payload],
+        mylist: action.payload,
       };
 
     case "DELETE_FAVORITE":
@@ -37,8 +39,9 @@ export default function (state = initialState, action) {
       };
     case "LOADING":
       return { ...state, loading: true };
-
     default:
       return state;
   }
-}
+};
+
+export default userReducer;

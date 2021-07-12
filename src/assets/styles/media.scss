@@ -1,20 +1,19 @@
-  @media (max-width: 767px) {
-    .footer {
-      font-size: x-small;
-    }
+@media (max-width: 767px) {
+  .footer {
+    font-size: x-small;
+  }
 
-    .header__img {
-      margin-left: 0;
-      margin-right:5px;
-    }
-    
-    .header__menu {
-      margin-right: 3px;
-    }
+  .header__img {
+    margin-left: 0;
+    margin-right: 5px;
+  }
 
-    
-.header__menu--profile p {
-  font-size: x-small;
+  .header__menu {
+    margin-right: 3px;
+  }
+
+  .header__menu--profile p {
+    font-size: x-small;
   }
 
   .login__container {
@@ -22,6 +21,9 @@
   }
 
   .register__container {
-    padding: 60px 25px 40px !important;  
+    padding: 60px 25px 40px !important;
+  }
+  .search_input {
+    width: 70%;
   }
 }

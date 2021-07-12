@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, withRouter, useHistory } from "react-router-dom";
 import "../assets/styles/components/Register.scss";
 import Header from "../components/Header";
 import Loader from "../components/Loader";
@@ -12,6 +12,7 @@ const Register = (props) => {
   const [displayName, setDisplayName] = useState("");
   const [error, setError] = useState([]);
   const [loading, setLoading] = useState(false);
+  let history = useHistory();
 
   const reset = () => {
     setDisplayName("");
@@ -37,10 +38,11 @@ const Register = (props) => {
         password
       );
 
-      await handleUserProfile(user, { displayName });
+      handleUserProfile(user, { displayName });
       reset();
-      props.history.push("/");
+      history.replace("/");
     } catch (err) {
+      setLoading(false);
       switch (err.code) {
         case "auth/email-already-in-use":
           setError("Usuario ya registrado...");
@@ -103,6 +105,7 @@ const Register = (props) => {
               value={confirmPassword}
             />
             <p className="errorMsg">{error}</p>
+            <br />
             <button className="button">Registrarme</button>
           </form>
           <Link to="/login">Iniciar sesión</Link>
