@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, withRouter, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../assets/styles/components/Register.scss";
 import Header from "../components/Header";
 import Loader from "../components/Loader";
@@ -12,14 +12,14 @@ const Register = (props) => {
   const [displayName, setDisplayName] = useState("");
   const [error, setError] = useState([]);
   const [loading, setLoading] = useState(false);
-  let history = useHistory();
+  let navigate = useNavigate();
 
   const reset = () => {
     setDisplayName("");
     setEmail("");
     setPassword("");
     setConfirmPassword("");
-    setErrors([]);
+    setError([]);
     setLoading(false);
   };
 
@@ -40,7 +40,7 @@ const Register = (props) => {
 
       handleUserProfile(user, { displayName });
       reset();
-      history.replace("/");
+      navigate("/");
     } catch (err) {
       setLoading(false);
       switch (err.code) {
@@ -115,4 +115,4 @@ const Register = (props) => {
   );
 };
 
-export default withRouter(Register);
+export default Register

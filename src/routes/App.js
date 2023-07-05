@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Redirect, Switch, Routes } from "react-router-dom";
 import { auth, handleUserProfile } from "./../firebase/utils";
 import { setCurrentUser } from "../redux/User/user.actions";
 
@@ -35,20 +35,19 @@ const App = (props) => {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Layout>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route
-            exact
-            path="/login"
-            render={() => (currentUser ? <Redirect to="/" /> : <Login />)}
-          />
-          <Route exact path="/register" component={Register} />
-          <Route component={NotFound} />
-        </Switch>
-      </Layout>
-    </BrowserRouter>
+    <Layout>
+      <Routes>
+        <Route exact path="/" component={Home} />
+        <Route
+          exact
+          path="/login"
+          // element={() => (currentUser ? <Redirect to="/" /> : <Login />)}
+          element={<Login />}
+        />
+        <Route exact path="/register" element={<Register />} />
+        <Route element={<NotFound />} />
+      </Routes>
+    </Layout>
   );
 };
 const mapStateToProps = ({ user }) => ({

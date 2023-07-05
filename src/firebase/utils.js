@@ -1,12 +1,12 @@
-import firebase from "firebase/app";
-import "firebase/firestore";
-import "firebase/auth";
+import * as firebase from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 import { firebaseConfig } from "./config";
 
 firebase.initializeApp(firebaseConfig);
 
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
+export const auth = getAuth();
+export const firestore = getFirestore();
 
 const GoogleProvider = new firebase.auth.GoogleAuthProvider();
 GoogleProvider.setCustomParameters({ prompt: "select_account" });

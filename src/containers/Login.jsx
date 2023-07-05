@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, withRouter, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "../assets/styles/components/Login.scss";
 import "../assets/styles/components/Loader.scss";
@@ -14,7 +14,7 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState([]);
   const [loading, setLoading] = useState(false);
-  let history = useHistory();
+  let navigate = useNavigate();
 
   const resetForm = () => {
     setEmail("");
@@ -28,7 +28,7 @@ const Login = (props) => {
     try {
       await auth.signInWithEmailAndPassword(email, password);
       resetForm();
-      history.replace("/");
+      navigate("/");
     } catch (error) {
       //console.log(error);
       setLoading(false);
@@ -103,4 +103,4 @@ const Login = (props) => {
   );
 };
 
-export default withRouter(Login);
+export default Login;
