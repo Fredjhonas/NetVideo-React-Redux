@@ -46,7 +46,7 @@ const App = (props) => {
           <Route path="/" element={<Home />} />
           <Route
             path="/login"
-            element={currentUser ? <Home /> : <Login />}
+            element={<Login />}
           />
           <Route path="/register" element={<Register />} />
           <Route element={<NotFound />} />

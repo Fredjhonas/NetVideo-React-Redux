@@ -1,48 +1,49 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { auth, signInWithGoogle } from "../firebase/utils";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { Formik, } from "formik";
+import { loginValidation } from "../utils/validation";
 
+// assets
 import "../assets/styles/components/Login.scss";
 import "../assets/styles/components/Loader.scss";
 import googleIcon from "../assets/static/google-icon.png";
-import Header from "../components/Header";
+
+// components
 import Loader from "../components/Loader";
-import { auth, signInWithGoogle } from "../firebase/utils";
-import { signInWithEmailAndPassword } from "firebase/auth";
-//import { db, auth } from "../../fire";
+import Header from "../components/Header";
 
-const Login = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  let navigate = useNavigate();
+const fields = [
+  { id: 1, name: "email", type: "text", placeholder: "Correo" },
+  { id: 2, name: "password", type: "password", placeholder: "Contraseña" },
+]
 
-  const resetForm = () => {
-    setEmail("");
-    setPassword("");
-  };
+const Login = () => {
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    setLoading(true);
-    e.preventDefault();
+  const handleSubmit = async (values, setSubmitting, reset, setErrors) => {
+    const { email, password } = values;
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      resetForm();
+      setSubmitting(false);
+      reset();
       navigate("/");
     } catch (error) {
-      //console.log(error);
-      setLoading(false);
+      setSubmitting(false);
       switch (error.code) {
         case "auth/invalid-email":
         case "auth/user-disabled":
         case "auth/user-not-found":
-          setError("Usuario no existe o es incorrecto");
+          setErrors({ email: "Usuario no existe o es incorrecto" });
           break;
         case "auth/wrong-password":
-          setError("Contraseña incorrecta");
+          setErrors({ password: "Contraseña incorrecta" });
           break;
         default:
+          setErrors({ email: "Error al iniciar sesión" });
+          break;
       }
     }
   };
@@ -52,35 +53,43 @@ const Login = (props) => {
       <Header isLogin />
       <section className="login">
         <section className="login__container">
-          <div>{loading ? <Loader /> : null}</div>
-          <h2>Inicia sesión</h2>
-          <form
-            className="login__container--form"
-            onSubmit={handleSubmit}
-          // disabled={loading}
+          <h1>Inicia sesión</h1>
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            onSubmit={(values, { setSubmitting, resetForm, setErrors }) => {
+              setSubmitting(true);
+              handleSubmit(values, setSubmitting, resetForm, setErrors);
+            }}
+            validationSchema={loginValidation}
           >
-            <input
-              name="email"
-              className="input"
-              type="text"
-              required
-              placeholder="Correo"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-            />
-            <input
-              name="password"
-              className="input"
-              type="password"
-              placeholder="Contraseña"
-              required
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-            />
-            <p className="errorMsg">{error}</p>
-            <br />
-            <button className="button">Iniciar sesión</button>
-          </form>
+            {({ errors, values, setValues, handleSubmit, isSubmitting }) => (
+              <form
+                className="login__container--form"
+                onSubmit={handleSubmit}
+              >
+                {fields.map((field) => {
+                  const { id, name, type, placeholder } = field;
+                  return (
+                    <div key={id}>
+                      <input
+                        name={name}
+                        className="input"
+                        type={type}
+                        required
+                        placeholder={placeholder}
+                        onChange={(e) => setValues({ ...values, [name]: e.target.value })}
+                        value={values[name]}
+                      />
+                      <p className="errorLoginMsg">{errors[name]}</p>
+                    </div>
+                  )
+                })}
+                <br />
+                {isSubmitting && <Loader />}
+                <button disabled={isSubmitting} className="button">Iniciar sesión</button>
+              </form>
+            )}
+          </Formik>
           <section className="login__container--social-media">
             <div>
               <a
@@ -96,7 +105,7 @@ const Login = (props) => {
             Recuperar contarseña
           </Link> */}
           <p className="login__container--register">
-            No tienes ninguna cuenta <Link to="/register">Regístrate</Link>
+            No tienes ninguna cuenta? <Link to="/register">Regístrate</Link>
           </p>
         </section>
       </section>

@@ -1,57 +1,51 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../assets/styles/components/Register.scss";
-import Header from "../components/Header";
-import Loader from "../components/Loader";
 import { auth, handleUserProfile } from "../firebase/utils";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Formik } from "formik";
+import { registerValidation } from "../utils/validation";
 
-const Register = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [displayName, setDisplayName] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  let navigate = useNavigate();
+// assets
+import "../assets/styles/components/Register.scss";
 
-  const reset = () => {
-    setDisplayName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-    setError("");
-    setLoading(false);
-  };
+// components
+import Header from "../components/Header";
+import Loader from "../components/Loader";
 
-  const handleSubmit = async (e) => {
-    setLoading(true);
-    e.preventDefault();
+const fields = [
+  { id: 1, name: "name", type: "text", placeholder: "Nombre" },
+  { id: 2, name: "email", type: "text", placeholder: "Correo" },
+  { id: 3, name: "password", type: "password", placeholder: "Contraseña" },
+  { id: 4, name: "passwordConfirmation", type: "password", placeholder: "Confirmar contraseña" },
+]
 
-    if (password !== confirmPassword) {
-      const err = "La contraseña no coincide"
-      setError(err);
-      return;
-    }
+const Register = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (values, setSubmitting, reset, setErrors) => {
+    const { name, email, password } = values;
+
     try {
       const { user } = await createUserWithEmailAndPassword(auth,
         email,
         password
       );
-
-      handleUserProfile(user, { displayName });
+      setSubmitting(false);
+      handleUserProfile(user, { displayName: name });
       reset();
       navigate("/");
     } catch (err) {
-      setLoading(false);
+      setSubmitting(false);
       switch (err.code) {
         case "auth/email-already-in-use":
-          setError("Usuario ya registrado...");
+          setErrors({ email: "Usuario ya registrado..." });
           break;
         case "auth/invalid-email":
-          setError("Email no válido");
+          setErrors({ email: "Correo inválido" });
           break;
         default:
+          setErrors({ email: "Error al registrar usuario" });
+          break;
       }
     }
   };
@@ -61,54 +55,43 @@ const Register = (props) => {
       <Header isRegister />
       <section className="register">
         <section className="register__container">
-          <div>{loading ? <Loader /> : null}</div>
-          <h2>Regístrate</h2>
-          <form
-            className="register__container--form"
-            onSubmit={handleSubmit}
-          // disabled={loading}
+          <h1>Regístrate</h1>
+          <Formik
+            initialValues={{ name: "", email: "", password: "", confirmPassword: "" }}
+            onSubmit={(values, { setSubmitting, resetForm, setErrors }) => {
+              setSubmitting(true);
+              handleSubmit(values, setSubmitting, resetForm, setErrors);
+            }}
+            validationSchema={registerValidation}
           >
-            <input
-              name="name"
-              className="input"
-              type="text"
-              placeholder="Nombre"
-              onChange={(e) => setDisplayName(e.target.value)}
-              value={displayName}
-            />
-
-            <input
-              name="email"
-              className="input"
-              type="text"
-              required
-              placeholder="Correo"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-            />
-
-            <input
-              name="password"
-              className="input"
-              type="password"
-              required
-              placeholder="Contraseña"
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-            />
-            <input
-              name="confirmPassword"
-              className="input"
-              type="password"
-              required
-              placeholder="Confirmar contraseña"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              value={confirmPassword}
-            />
-            <p className="errorMsg">{error}</p>
-            <br />
-            <button className="button">Registrarme</button>
-          </form>
+            {({ errors, values, setValues, handleSubmit, isSubmitting }) => (
+              <form
+                className="register__container--form"
+                onSubmit={handleSubmit}
+              >
+                {fields.map((field) => {
+                  const { id, name, type, placeholder } = field;
+                  return (
+                    <div key={id}>
+                      <input
+                        name={name}
+                        type={type}
+                        placeholder={placeholder}
+                        className="input"
+                        onChange={(e) => {
+                          setValues({ ...values, [e.target.name]: e.target.value });
+                        }}
+                      />
+                      <p className="errorMsg">{errors[name]}</p>
+                    </div>
+                  )
+                })}
+                <br />
+                <div>{isSubmitting ? <Loader /> : null}</div>
+                <button disabled={isSubmitting} className="button">Registrarme</button>
+              </form>
+            )}
+          </Formik>
           <Link to="/login">Iniciar sesión</Link>
         </section>
       </section>

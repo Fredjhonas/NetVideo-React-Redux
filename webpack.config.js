@@ -11,25 +11,16 @@ module.exports = {
   },
 
   resolve: {
-    // changed from extensions: [".js", ".jsx"]
     extensions: [".ts", ".tsx", ".js", ".jsx"]
   },
 
   module: {
     rules: [
-      // {
-      //   test: /\.(js|jsx)$/,
-      //   exclude: /node_modules/,
-      //   use: {
-      //     loader: "babel-loader",
-      //   },
-      // },
-      // changed from { test: /\.jsx?$/, use: { loader: 'babel-loader' }, exclude: /node_modules/ },
       {
         test: /\.(t|j)sx?$/, use: {
           loader: 'ts-loader', options: {
             compilerOptions: {
-              noEmit: false, // this option will solve the issue
+              noEmit: false,  // No need to emit files since we're in a test environment
             }
           }
         },
