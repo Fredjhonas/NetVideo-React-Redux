@@ -27,7 +27,7 @@ const Header = (props) => {
 
   const { currentUser } = props;
 
-  //console.log("Usuario", currentUser);
+  // console.log("Usuario", currentUser);
 
   return (
     <header className={headerClass}>

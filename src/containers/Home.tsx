@@ -1,26 +1,27 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import noPoster from "../assets/static/noposter.jpg";
-import Search from "../components/Search";
-import Header from "../components/Header";
-import MovieItem from "../components/MovieItem";
-import Carousel from "../components/Carousel";
-import Categories from "../components/Categories";
-import Loader from "../components/Loader";
-import { fetchFavorites } from "../redux/Movie/movie.actions";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import noPoster from '../assets/static/noposter.jpg';
+import Search from '../components/Search';
+import Header from '../components/Header';
+import MovieItem from '../components/MovieItem';
+import Carousel from '../components/Carousel';
+import Categories from '../components/Categories';
+import Loader from '../components/Loader';
+import { fetchFavorites } from '../redux/Movie/movie.actions';
 
-import "../assets/styles/App.scss";
+import '../assets/styles/App.scss';
 
 const mapState = ({ user }) => ({
   currentUser: user.currentUser,
 });
 
-const Home = () => {
+function Home() {
   const { currentUser } = useSelector(mapState);
-  const data = useSelector((state) => state.movie.data);
-  const loading = useSelector((state) => state.movie.loading);
-  const mylist = useSelector((state) => state.movie.mylist);
-  let dispatch = useDispatch();
+  const data = useSelector((state: any) => state.movie.data);
+  const loading = useSelector((state: any) => state.movie.loading);
+  const mylist = useSelector((state: any) => state.movie.mylist);
+  console.log('🚀 ~ file: Home.jsx:23 ~ Home ~ mylist:', mylist);
+  const dispatch = useDispatch();
 
   let ResultData;
   if (!data && !loading) {
@@ -57,11 +58,11 @@ const Home = () => {
 
   useEffect(() => {
     if (
-      currentUser &&
-      Object.keys(currentUser).length > 0 &&
-      mylist.length === 0
+      currentUser
+      && Object.keys(currentUser).length > 0
+      && mylist.length === 0
     ) {
-      dispatch(fetchFavorites());
+      dispatch(fetchFavorites() as any);
     }
   }, [currentUser]);
 
@@ -72,9 +73,7 @@ const Home = () => {
       {mylist.length > 0 && (
         <Categories title="Mi lista">
           <Carousel>
-            {mylist.map((item, index) => {
-              return <MovieItem key={item.id} id={item.id} {...item} isList />;
-            })}
+            {mylist.map((item, index) => <MovieItem key={item.id} id={item.id} {...item} isList />)}
           </Carousel>
         </Categories>
       )}
@@ -89,6 +88,6 @@ const Home = () => {
       )}
     </div>
   );
-};
+}
 
 export default Home;

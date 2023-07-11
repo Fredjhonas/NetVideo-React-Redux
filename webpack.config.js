@@ -3,7 +3,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
@@ -11,18 +11,32 @@ module.exports = {
   },
 
   resolve: {
-    extensions: [".js", ".jsx"],
+    // changed from extensions: [".js", ".jsx"]
+    extensions: [".ts", ".tsx", ".js", ".jsx"]
   },
 
   module: {
     rules: [
+      // {
+      //   test: /\.(js|jsx)$/,
+      //   exclude: /node_modules/,
+      //   use: {
+      //     loader: "babel-loader",
+      //   },
+      // },
+      // changed from { test: /\.jsx?$/, use: { loader: 'babel-loader' }, exclude: /node_modules/ },
       {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
+        test: /\.(t|j)sx?$/, use: {
+          loader: 'ts-loader', options: {
+            compilerOptions: {
+              noEmit: false, // this option will solve the issue
+            }
+          }
         },
+        exclude: /node_modules/
       },
+      // addition - add source-map support
+      { enforce: "pre", test: /\.js$/, exclude: /node_modules/, loader: "source-map-loader" },
       {
         test: /\.html$/,
         use: [
@@ -44,20 +58,18 @@ module.exports = {
       },
       {
         test: /\.(png|gif|jpg)$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "assets/[hash].[ext]",
-            },
-          },
-        ],
+        use: ["file-loader"],
       },
     ],
   },
   devServer: {
     historyApiFallback: true,
+    static: "./dist",
+    compress: true,
+    port: 3000,
   },
+  // addition - add source-map support
+  devtool: "source-map",
   plugins: [
     new HtmlWebPackPlugin({
       template: "./public/index.html",

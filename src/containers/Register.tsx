@@ -3,14 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "../assets/styles/components/Register.scss";
 import Header from "../components/Header";
 import Loader from "../components/Loader";
-import { auth, handleUserProfile } from "./../firebase/utils";
+import { auth, handleUserProfile } from "../firebase/utils";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const Register = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const [error, setError] = useState([]);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
 
@@ -19,7 +20,7 @@ const Register = (props) => {
     setEmail("");
     setPassword("");
     setConfirmPassword("");
-    setError([]);
+    setError("");
     setLoading(false);
   };
 
@@ -28,12 +29,12 @@ const Register = (props) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      const err = ["La contraseña no coincide"];
+      const err = "La contraseña no coincide"
       setError(err);
       return;
     }
     try {
-      const { user } = await auth.createUserWithEmailAndPassword(
+      const { user } = await createUserWithEmailAndPassword(auth,
         email,
         password
       );
@@ -65,7 +66,7 @@ const Register = (props) => {
           <form
             className="register__container--form"
             onSubmit={handleSubmit}
-            disabled={loading}
+          // disabled={loading}
           >
             <input
               name="name"

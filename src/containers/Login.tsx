@@ -6,13 +6,14 @@ import "../assets/styles/components/Loader.scss";
 import googleIcon from "../assets/static/google-icon.png";
 import Header from "../components/Header";
 import Loader from "../components/Loader";
-import { auth, signInWithGoogle } from "./../firebase/utils";
+import { auth, signInWithGoogle } from "../firebase/utils";
+import { signInWithEmailAndPassword } from "firebase/auth";
 //import { db, auth } from "../../fire";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState([]);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
 
@@ -26,7 +27,7 @@ const Login = (props) => {
     e.preventDefault();
 
     try {
-      await auth.signInWithEmailAndPassword(email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       resetForm();
       navigate("/");
     } catch (error) {
@@ -56,7 +57,7 @@ const Login = (props) => {
           <form
             className="login__container--form"
             onSubmit={handleSubmit}
-            disabled={loading}
+          // disabled={loading}
           >
             <input
               name="email"
