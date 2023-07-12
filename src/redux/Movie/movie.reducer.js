@@ -1,4 +1,4 @@
-import userTypes from "./movie.types";
+import movieTypes from "./movie.types";
 
 const INITIAL_STATE = {
   data: false,
@@ -8,40 +8,40 @@ const INITIAL_STATE = {
   mylist: [],
 };
 
-const userReducer = (state = INITIAL_STATE, action) => {
+const movieReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case "SET_FAVORITE":
+    case movieTypes.SET_FAVORITE:
       return {
         ...state,
         mylist: action.payload,
       };
 
-    case "DELETE_FAVORITE":
+    case movieTypes.DELETE_FAVORITE:
       return {
         ...state,
-        mylist: state.mylist.filter((items) => items.id !== action.payload),
+        mylist: state.mylist.filter((item) => item.id !== action.payload),
       };
 
-    case "FETCH_CUSTOMER":
+    case movieTypes.FETCH_CUSTOMER:
       return {
         ...state,
         data: action.payload,
       };
-    case "LOADING_CUSTOMER":
+    case movieTypes.LOADING_CUSTOMER:
       return {
         ...state,
         loading: action.payload,
       };
-    case "ERROR_CUSTOMER":
+    case movieTypes.ERROR_CUSTOMER:
       return {
         ...state,
         err: action.payload,
       };
-    case "LOADING":
+    case movieTypes.LOADING:
       return { ...state, loading: true };
     default:
       return state;
   }
 };
 
-export default userReducer;
+export default movieReducer;

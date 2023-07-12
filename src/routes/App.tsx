@@ -12,8 +12,8 @@ import Register from '../containers/Register';
 import NotFound from '../containers/NotFound';
 import Layout from '../components/Layout';
 
+
 const App = (props) => {
-  console.log("🚀 ~ file: App.tsx:16 ~ App ~ props:", props)
   const { setCurrentUser, currentUser } = props;
 
   useEffect(() => {

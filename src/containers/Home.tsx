@@ -10,6 +10,7 @@ import Loader from '../components/Loader';
 import { fetchFavorites } from '../redux/Movie/movie.actions';
 
 import '../assets/styles/App.scss';
+import { useFetchMovies } from '../hooks/useFetchMovies';
 
 const mapState = ({ user }) => ({
   currentUser: user.currentUser,
@@ -17,16 +18,14 @@ const mapState = ({ user }) => ({
 
 function Home() {
   const { currentUser } = useSelector(mapState);
-  const data = useSelector((state: any) => state.movie.data);
-  const loading = useSelector((state: any) => state.movie.loading);
+  const { data, isLoading } = useFetchMovies();
   const mylist = useSelector((state: any) => state.movie.mylist);
-  console.log('🚀 ~ file: Home.jsx:23 ~ Home ~ mylist:', mylist);
   const dispatch = useDispatch();
 
   let ResultData;
-  if (!data && !loading) {
+  if (!data && !isLoading) {
     ResultData = <Loader />;
-  } else if (loading) {
+  } else if (isLoading) {
     ResultData = <Loader />;
   } else {
     ResultData = data.map((item) => {
