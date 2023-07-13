@@ -1,4 +1,4 @@
-.carousel-item {
+.carousel-custom-item {
   border-radius: 20px;
   overflow: hidden;
   position: relative;
@@ -13,7 +13,7 @@
   transform-origin: center left;
 }
 
-.carousel-item:hover ~ .carousel-item {
+.carousel-custom-item:hover ~ .carousel-custom-item {
   -webkit-transform: translate3d(100px, 0, 0);
   transform: translate3d(100px, 0, 0);
 }
@@ -50,7 +50,7 @@
   width: 20px;
 }
 
-.carousel-item:hover .carousel-item__details {
+.carousel-custom-item:hover .carousel-item__details {
   opacity: 1;
 }
 

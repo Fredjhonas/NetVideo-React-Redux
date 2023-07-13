@@ -1,5 +1,5 @@
 import * as firebase from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { firebaseConfig } from './config';
 
@@ -7,11 +7,11 @@ const app = firebase.initializeApp(firebaseConfig);
 
 export const auth = getAuth();
 export const firestore = getFirestore();
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 const GoogleProvider = new GoogleAuthProvider();
 GoogleProvider.setCustomParameters({ prompt: 'select_account' });
-export const signInWithGoogle = () => auth.signInWithPopup(GoogleProvider);
+export const signInWithGoogle = () => signInWithPopup(auth, GoogleProvider);
 
 export const handleUserProfile = async (userAuth, additionalData) => {
   if (!userAuth) return;
@@ -20,8 +20,6 @@ export const handleUserProfile = async (userAuth, additionalData) => {
 
   const userRef = doc(db, `users/${uid}`);
   const snapshot = await getDoc(userRef);
-  console.log('🚀 ~ file: utils.js:24 ~ handleUserProfile ~ userRef:', userRef);
-  console.log('🚀 ~ file: utils.js:24 ~ handleUserProfile ~ snapshot:', snapshot);
 
   if (!snapshot.exists) {
     const { displayName, email } = userAuth;

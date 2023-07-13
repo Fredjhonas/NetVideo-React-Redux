@@ -1,43 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
 import { MdSearch } from "react-icons/md";
-import { useFetchMovies } from "../hooks/useFetchMovies";
-
 import "../assets/styles/components/Search.scss";
 
-const Search = (isHome) => {
-  const [search, setSearch] = useState("");
-  const fetchQuery = useFetchMovies(search);
+interface SearchProps {
+  isHome?: boolean;
+  search?: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  refetch?: any;
+}
 
+const Search = ({ isHome, search, setSearch, refetch }: SearchProps) => {
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-    fetchQuery.refetch();
+    refetch();
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    fetchQuery.refetch();
+    refetch();
   };
 
   return (
-    <>
-      <section className="main">
-        <h2 className="main__title">¿Qué quieres ver hoy?</h2>
-        <form className="search col-md-6" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            className="search_input"
-            name="search"
-            placeholder="Buscar..."
-            onChange={handleChange}
-            value={search}
-          />
-          <button type="submit" className="search_btn">
-            <MdSearch />
-          </button>
-        </form>
-      </section>
-    </>
+    <section className="main">
+      <h2 className="main__title mb-4">¿Qué quieres ver hoy?</h2>
+      <form className="search" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          className="search_input"
+          name="search"
+          placeholder="Buscar..."
+          onChange={handleChange}
+          value={search}
+        />
+        <button type="submit" className="search_btn">
+          <MdSearch />
+        </button>
+      </form>
+    </section>
   );
 };
 

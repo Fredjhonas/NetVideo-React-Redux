@@ -51,11 +51,11 @@ const Register = () => {
   };
 
   return (
-    <>
+    <div>
       <Header isRegister />
       <section className="register">
         <section className="register__container">
-          <h1>Regístrate</h1>
+          <h1 className="mb-4">Regístrate</h1>
           <Formik
             initialValues={{ name: "", email: "", password: "", confirmPassword: "" }}
             onSubmit={(values, { setSubmitting, resetForm, setErrors }) => {
@@ -95,7 +95,7 @@ const Register = () => {
           <Link to="/login">Iniciar sesión</Link>
         </section>
       </section>
-    </>
+    </div>
   );
 };
 

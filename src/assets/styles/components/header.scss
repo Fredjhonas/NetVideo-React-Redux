@@ -3,15 +3,20 @@
   background: #022b54;
   color: white;
   display: flex;
-  height: 60px;
+  height: 80px;
   top: 0px;
   width: 100%;
+  justify-content: space-between;
 }
 
 .header__img {
   margin-left: 20px;
   margin-right: 10px;
-  width: 90px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  background-color: aliceblue;
+  padding: 5px;
 }
 
 .header__menu {
@@ -19,10 +24,9 @@
 }
 
 .header__title {
-  margin-inline-end: auto;
-  margin-top: 25px;
-  font-size: medium;
+  font-size: large;
   color: white;
+  margin-top: 10px;
 }
 
 .header__menu ul {
@@ -31,7 +35,7 @@
   margin: 0px 0px 0px 5px;
   padding: 0px;
   position: absolute;
-  width: 100px;
+  width: 200px;
   text-align: right;
 }
 
@@ -41,7 +45,9 @@ ul:hover {
 }
 
 .header__menu li {
-  margin: 10px 0px;
+  margin: 10px;
+  margin-right: 0px;
+  width: 100%;
 }
 
 .header__menu li a {
@@ -56,12 +62,15 @@ ul:hover {
 .header__menu--profile {
   align-items: center;
   display: flex;
+  flex-direction: row;
+  justify-content: center;
   cursor: pointer;
 }
 
 .header__menu--profile img {
-  margin-right: 8px;
-  width: 40px;
-  border-radius: 100%;
+  margin-left: 8px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
   object-fit: cover;
 }

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, signInWithGoogle } from "../firebase/utils";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Formik, } from "formik";
 import { loginValidation } from "../utils/validation";
+import { useSelector } from "react-redux";
 
 // assets
 import "../assets/styles/components/Login.scss";
@@ -21,6 +22,7 @@ const fields = [
 
 const Login = () => {
   const navigate = useNavigate();
+  const { currentUser } = useSelector((state: any) => state.user);
 
   const handleSubmit = async (values, setSubmitting, reset, setErrors) => {
     const { email, password } = values;
@@ -29,7 +31,6 @@ const Login = () => {
       await signInWithEmailAndPassword(auth, email, password);
       setSubmitting(false);
       reset();
-      navigate("/");
     } catch (error) {
       setSubmitting(false);
       switch (error.code) {
@@ -48,12 +49,18 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    if (currentUser?.id) {
+      navigate("/");
+    }
+  }, [currentUser]);
+
   return (
-    <>
+    <div>
       <Header isLogin />
       <section className="login">
         <section className="login__container">
-          <h1>Inicia sesión</h1>
+          <h1 className="mb-4">Inicia sesión</h1>
           <Formik
             initialValues={{ email: "", password: "" }}
             onSubmit={(values, { setSubmitting, resetForm, setErrors }) => {
@@ -95,7 +102,7 @@ const Login = () => {
               <a
                 type="button"
                 onClick={signInWithGoogle}
-                className="link_google"
+                className="link_google text-light button"
               >
                 <img src={googleIcon} alt="Google Icon" /> Ingresar con Google
               </a>
@@ -109,7 +116,7 @@ const Login = () => {
           </p>
         </section>
       </section>
-    </>
+    </div>
   );
 };
 

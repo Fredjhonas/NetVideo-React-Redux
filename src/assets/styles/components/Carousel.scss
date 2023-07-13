@@ -1,4 +1,4 @@
-.carousel {
+.carousel-custom {
   overflow: auto;
   padding-left: 30px;
   width: 100%;
@@ -15,11 +15,11 @@
   padding-bottom: 10px;
 }
 
-.carousel__container:hover .carousel-item {
+.carousel__container:hover .carousel-custom-item {
   opacity: 0.3;
 }
 
-.carousel__container:hover .carousel-item:hover {
+.carousel__container:hover .carousel-custom-item:hover {
   -webkit-transform: scale(1.5);
   transform: scale(1.5);
   opacity: 1;

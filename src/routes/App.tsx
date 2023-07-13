@@ -11,10 +11,11 @@ import Login from '../containers/Login';
 import Register from '../containers/Register';
 import NotFound from '../containers/NotFound';
 import Layout from '../components/Layout';
+import { UserInfo } from 'firebase/auth';
 
 
-const App = (props) => {
-  const { setCurrentUser, currentUser } = props;
+const App = (props: any) => {
+  const { setCurrentUser } = props;
 
   useEffect(() => {
     const authListener = auth.onAuthStateChanged(async (userAuth) => {
@@ -59,7 +60,7 @@ const mapStateToProps = ({ user }) => ({
   currentUser: user.currentUser,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+const mapDispatchToProps = (dispatch: any) => ({
+  setCurrentUser: (user: UserInfo | null) => dispatch(setCurrentUser(user)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(App);

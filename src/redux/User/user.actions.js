@@ -46,7 +46,8 @@ export const leerUsuarioAccion = () => async (dispatch) => {
 
 export const cerrarSesionAccion = () => (dispatch) => {
   dispatch({
-    type: userTypes.CERRAR_SESION,
+    type: userTypes.SET_CURRENT_USER,
+    payload: null
   });
   dispatch({
     type: movieTypes.SET_FAVORITE,
