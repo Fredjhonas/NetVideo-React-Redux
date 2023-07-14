@@ -32,16 +32,17 @@
 .header__menu ul {
   display: none;
   list-style: none;
-  margin: 0px 0px 0px 5px;
+  margin: 0px 15px;
   padding: 0px;
   position: absolute;
-  width: 200px;
+  width: auto;
   text-align: right;
+  right: 50px;
 }
 
 .header__menu:hover ul,
 ul:hover {
-  display: block;
+  display: inline-block;
 }
 
 .header__menu li {

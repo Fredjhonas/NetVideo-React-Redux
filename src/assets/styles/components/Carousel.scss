@@ -11,8 +11,8 @@
   transition: 450ms transform, 450ms -webkit-transform;
   font-size: 0;
   white-space: nowrap;
-  margin: 70px 0px;
-  padding-bottom: 10px;
+  margin: 40px 0px;
+  padding: 40px;
 }
 
 .carousel__container:hover .carousel-custom-item {
@@ -20,7 +20,7 @@
 }
 
 .carousel__container:hover .carousel-custom-item:hover {
-  -webkit-transform: scale(1.5);
-  transform: scale(1.5);
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
   opacity: 1;
 }

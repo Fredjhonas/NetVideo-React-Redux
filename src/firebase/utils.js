@@ -11,7 +11,9 @@ export const db = getFirestore(app);
 
 const GoogleProvider = new GoogleAuthProvider();
 GoogleProvider.setCustomParameters({ prompt: 'select_account' });
-export const signInWithGoogle = () => signInWithPopup(auth, GoogleProvider);
+export const signInWithGoogle = () => signInWithPopup(auth, GoogleProvider).catch((error) => {
+  console.log("🚀 ~ file: utils.js:15 ~ error:", error)
+});
 
 export const handleUserProfile = async (userAuth, additionalData) => {
   if (!userAuth) return;

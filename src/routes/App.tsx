@@ -5,6 +5,10 @@ import { auth, handleUserProfile } from '../firebase/utils';
 import { setCurrentUser } from '../redux/User/user.actions';
 import { onSnapshot } from 'firebase/firestore'
 
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+
 // containers
 import Home from '../containers/Home';
 import Login from '../containers/Login';
@@ -50,7 +54,7 @@ const App = (props: any) => {
             element={<Login />}
           />
           <Route path="/register" element={<Register />} />
-          <Route element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
     </BrowserRouter>
