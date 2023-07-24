@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setFavorite, deleteFavorite } from "../redux/Movie/movie.actions";
 
 
@@ -24,6 +24,7 @@ interface MovieItemProps {
 
 const MovieItem = ({ id, year, image, votes, calification, title, isList, documentID }: MovieItemProps) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state: any) => state.user);
 
   const handleSetFavorite = () => {
@@ -41,9 +42,13 @@ const MovieItem = ({ id, year, image, votes, calification, title, isList, docume
     dispatch(deleteFavorite(documentID) as any)
   };
 
+  const goToMovie = () => {
+    navigate(`/movie/${id}`)
+  }
+
 
   return (
-    <div className="carousel-custom-item" key={id}>
+    <div className="carousel-custom-item" key={id} onClick={goToMovie}>
       <img className="carousel-item__img" src={image} alt={image} />
       <div className="carousel-item__details">
         <div>

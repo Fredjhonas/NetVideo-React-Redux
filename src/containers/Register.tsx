@@ -9,7 +9,6 @@ import { registerValidation } from "../utils/validation";
 import "../assets/styles/components/Register.scss";
 
 // components
-import Header from "../components/Header";
 import Loader from "../components/Loader";
 
 const fields = [
@@ -52,7 +51,6 @@ const Register = () => {
 
   return (
     <div>
-      <Header isRegister />
       <section className="register">
         <section className="register__container">
           <h1 className="mb-4">Regístrate</h1>

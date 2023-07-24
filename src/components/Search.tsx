@@ -29,7 +29,7 @@ const Search = ({ isHome, search, setSearch, refetch }: SearchProps) => {
           type="text"
           className="search_input"
           name="search"
-          placeholder="Buscar..."
+          placeholder="Buscar películas..."
           onChange={handleChange}
           value={search}
         />

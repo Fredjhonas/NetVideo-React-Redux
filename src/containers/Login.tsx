@@ -13,7 +13,6 @@ import googleIcon from "../assets/static/google-icon.png";
 
 // components
 import Loader from "../components/Loader";
-import Header from "../components/Header";
 
 const fields = [
   { id: 1, name: "email", type: "text", placeholder: "Correo" },
@@ -57,7 +56,6 @@ const Login = () => {
 
   return (
     <div>
-      <Header isLogin />
       <section className="login">
         <section className="login__container">
           <h1 className="mb-4">Inicia sesión</h1>

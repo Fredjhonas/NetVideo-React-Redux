@@ -12,12 +12,7 @@ import "../assets/styles/components/header.scss";
 import logo from "../assets/static/netvideo-logo.png";
 // import userIcon from "../assets/static/user-icon.png";
 
-interface HeaderProps {
-  isLogin?: boolean;
-  isRegister?: boolean;
-}
-
-const Header = ({ isLogin, isRegister }: HeaderProps) => {
+const Header = () => {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.user);
 
@@ -38,9 +33,9 @@ const Header = ({ isLogin, isRegister }: HeaderProps) => {
         <h4 className="header__title">NetVideo</h4>
       </Link>
 
-      <h3 className="header__title">
-        - ENCUENTRA LAS MEJORES PELICULAS Y SERIES -
-      </h3>
+      {/* <h3 className="header__title d-none d-md-block">
+        - ENCUENTRA PELICULAS Y SERIES -
+      </h3> */}
       <div className="header__menu">
         {currentUser ? (
           <div>

@@ -1,11 +1,11 @@
-import * as firebase from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { firebaseConfig } from './config';
 
-const app = firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth();
+export const auth = getAuth(app);
 export const firestore = getFirestore();
 export const db = getFirestore(app);
 

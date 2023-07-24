@@ -16,12 +16,14 @@ import Register from '../containers/Register';
 import NotFound from '../containers/NotFound';
 import Layout from '../components/Layout';
 import { UserInfo } from 'firebase/auth';
+import MovieDetail from '../containers/MovieDetail';
 
 
 const App = (props: any) => {
   const { setCurrentUser } = props;
 
   useEffect(() => {
+
     const authListener = auth.onAuthStateChanged(async (userAuth) => {
 
       if (userAuth) {
@@ -54,6 +56,7 @@ const App = (props: any) => {
             element={<Login />}
           />
           <Route path="/register" element={<Register />} />
+          <Route path="/movie/:movieId" element={<MovieDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
