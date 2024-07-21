@@ -21,10 +21,10 @@ const MovieDetail = () => {
 
 
   return (
-    <div className='home-main d-flex justify-content-center'>
-      {isLoading && <Loader />}
+    <div className='home-main d-flex justify-content-center align-items-center'>
+      {isLoading && !isPaused && <Loader />}
 
-      {isError || isPaused && <h1>Ocurrió un error inesperado...</h1>}
+      {isError || isPaused && !data && <h1 className='p-4'>Ocurrió un error inesperado...</h1>}
 
       {data && (
         <div className='p-4 m-4 text-center col col-md-6 card bg-info-subtle'>
@@ -45,13 +45,14 @@ const MovieDetail = () => {
 
           <div className='card-body'>
             <h1 className='card-title'>{detail?.title}</h1>
-            <div className='d-flex justify-content-between pt-4 pb-4 p-md-4'>
-              <p className="">{` Votos: ${votes}`}</p>
-              <p className="">
-                {`Calificación: ${calification}`}{" "}
+            <h4 className='card-title'>{detail?.tagline}</h4>
+            <div className='d-flex justify-content-center pt-4 pb-4'>
+              <p className="badge text-bg-success">{` Votos: ${votes}`}</p>
+              <p className="badge text-bg-danger">
+                {`Calificación: ${calification}`}
               </p>
-              <p className="">
-                {`Lanzamiento: ${year}`}{" "}
+              <p className="badge text-bg-warning">
+                {`Año: ${new Date(year).getFullYear()}`}
               </p>
             </div>
             <p className='text-start'>{detail?.overview}</p>
