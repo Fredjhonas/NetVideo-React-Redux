@@ -1,22 +1,23 @@
+import { onSnapshot } from 'firebase/firestore';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { auth, handleUserProfile } from '../firebase/utils';
 import { setCurrentUser } from '../redux/User/user.actions';
-import { onSnapshot } from 'firebase/firestore'
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 // containers
+import { UserInfo } from 'firebase/auth';
+import Layout from '../components/Layout';
 import Home from '../containers/Home';
 import Login from '../containers/Login';
-import Register from '../containers/Register';
-import NotFound from '../containers/NotFound';
-import Layout from '../components/Layout';
-import { UserInfo } from 'firebase/auth';
 import MovieDetail from '../containers/MovieDetail';
+import NotFound from '../containers/NotFound';
+import Register from '../containers/Register';
 
 
 const App = (props: any) => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { MdSearch } from "react-icons/md";
 import "../assets/styles/components/Search.scss";
 
@@ -6,20 +6,28 @@ interface SearchProps {
   isHome?: boolean;
   search?: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
+  setSearchDebounce: React.Dispatch<React.SetStateAction<string>>;
   refetch?: any;
 }
 
-const Search = ({ isHome, search, setSearch, refetch }: SearchProps) => {
+const Search = ({ isHome, search, setSearch, refetch, setSearchDebounce }: SearchProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-    refetch();
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     refetch();
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setSearchDebounce(search as string);
+    }, 1500);
+
+    return () => clearTimeout(timeout);
+  }), [search]
 
   return (
     <section className="main">

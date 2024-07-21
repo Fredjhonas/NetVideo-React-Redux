@@ -1,7 +1,7 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { setFavorite, deleteFavorite } from "../redux/Movie/movie.actions";
+import { deleteFavorite, setFavorite } from "../redux/Movie/movie.actions";
 
 
 import "../assets/styles/components/CarouselItem.scss";
@@ -48,7 +48,9 @@ const MovieItem = ({ id, year, image, votes, calification, title, isList, docume
 
 
   return (
-    <div className="carousel-custom-item" key={id} onClick={goToMovie}>
+    <div className="carousel-custom-item" key={id}
+    // onClick={goToMovie}
+    >
       <img className="carousel-item__img" src={image} alt={image} />
       <div className="carousel-item__details">
         <div>

@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query"
-import { getSearchUrl } from "../utils/constants"
-import { Movie } from "../interfaces/movie"
+import { useQuery } from "@tanstack/react-query";
+import { Movie } from "../interfaces/movie";
+import { getSearchUrl } from "../utils/constants";
 
 const fetchMovies = async (search?: string): Promise<Movie[]> => {
   const url = getSearchUrl(search);
@@ -11,6 +11,8 @@ const fetchMovies = async (search?: string): Promise<Movie[]> => {
 }
 
 export const useFetchMovies = (search?: string) => {
-  const query = useQuery(["movies"], async () => await fetchMovies(search))
+  const query = useQuery(["movies"], async () => await fetchMovies(search), {
+    enabled: false
+  })
   return query;
 }

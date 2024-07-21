@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchFavorites } from '../redux/Movie/movie.actions';
-import { useFetchMovies } from '../hooks/useFetchMovies';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
+import { useFetchMovies } from '../hooks/useFetchMovies';
 import { Favorite } from '../interfaces/favorite';
+import { fetchFavorites } from '../redux/Movie/movie.actions';
 
 // components
-import Search from '../components/Search';
 import MovieItem from '../components/MovieItem';
+import Search from '../components/Search';
 // import Carousel from '../components/Carousel';
 import Categories from '../components/Categories';
 import Loader from '../components/Loader';
@@ -17,6 +17,7 @@ import Loader from '../components/Loader';
 import noPoster from '../assets/static/noposter.jpg';
 import '../assets/styles/App.scss';
 import "../assets/styles/components/Carousel.scss";
+import { useMobile } from '../hooks/useMobile';
 
 
 const mapState = ({ user }) => ({
@@ -25,10 +26,13 @@ const mapState = ({ user }) => ({
 
 const Home = () => {
   const [search, setSearch] = useState("");
+  const [searchDebounce, setSearchDebounce] = useState("");
   const { currentUser } = useSelector(mapState);
-  const { data, isLoading, refetch, isPaused } = useFetchMovies(search);
+  const { data, isFetching, refetch, isPaused } = useFetchMovies(searchDebounce);
   const mylist = useSelector((state: any) => state.movie.mylist);
   const dispatch = useDispatch();
+  const { isMobile, isTablet } = useMobile();
+  const slidesPerView = isMobile ? 1 : isTablet ? 3 : 5;
 
   useEffect(() => {
     if (currentUser?.id) {
@@ -36,7 +40,13 @@ const Home = () => {
     }
   }, [currentUser]);
 
-  const searchProps = { isHome: true, search, setSearch, refetch };
+  const searchProps = { isHome: true, search, setSearch, refetch, setSearchDebounce };
+
+  useEffect(() => {
+    if (searchDebounce.length > 0) {
+      refetch();
+    }
+  }, [searchDebounce]);
 
   return (
     <div className="home-main">
@@ -48,14 +58,16 @@ const Home = () => {
         </div>
       ) : (
         <div>
-          {mylist?.length > 0 && (
+            {mylist?.length > 0 && (
+            <div style={{ marginBottom:  40 }}>
             <Categories title="Mi lista">
               <Swiper
-                modules={[Navigation]}
-                navigation={true}
-                spaceBetween={10}
-                slidesPerView={5}
-                className="carousel__container"
+                modules={[Navigation, Pagination]}
+                navigation={false}
+                spaceBetween={40}
+                pagination={{ clickable: true }}
+                slidesPerView={slidesPerView}
+                className = "carousel__container"
               >
                 {mylist.map((item: Favorite) => {
                   return (
@@ -66,17 +78,20 @@ const Home = () => {
                 })}
               </Swiper>
             </Categories>
-          )}
-          {isLoading ? (<Loader />) :
+            </div>  
+            )}
+            
+          {isFetching ? (<Loader />) :
             (
-              search?.length > 0 ?
-                <Categories title="Resultados">
-                  {data?.length === 0 && <h4 className="p-4">No hay resultados</h4>}
+              searchDebounce?.length > 0 ?
+                <Categories title="Resultados de la busqueda">
+                  {data?.length === 0 && <h4 className="p-4 text-center">No hay resultados</h4>}
                   <Swiper
-                    modules={[Navigation]}
-                    navigation={true}
-                    spaceBetween={10}
-                    slidesPerView={5}
+                    modules={[Navigation, Pagination]}
+                    navigation={false}
+                    spaceBetween={40}
+                    pagination={{ clickable: true }}
+                    slidesPerView={slidesPerView}
                     className="carousel__container"
                   >
                     {data?.slice(0, 10).map((item) => {

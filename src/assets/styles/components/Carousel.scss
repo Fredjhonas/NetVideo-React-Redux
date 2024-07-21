@@ -11,7 +11,7 @@
   transition: 450ms transform, 450ms -webkit-transform;
   font-size: 0;
   white-space: nowrap;
-  margin: 40px 0px;
+  margin: 10px;
   padding: 40px;
 }
 
@@ -23,4 +23,11 @@
   -webkit-transform: scale(1.2);
   transform: scale(1.2);
   opacity: 1;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
 }
